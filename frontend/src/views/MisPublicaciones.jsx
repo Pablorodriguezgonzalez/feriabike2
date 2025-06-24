@@ -131,7 +131,7 @@ const MisPublicaciones = () => {
               key={publicacion.id}
               className={`bg-white border border-gray-200 shadow-md rounded-xl p-6 flex flex-col justify-between ${
                 publicacion.estado_publicacion === "finalizado" ? "opacity-50" : ""
-              }`}
+              } ${publicacion.estado_publicacion === "vendido" ? "opacity-50" : ""}`}
             >
               {publicacionEditando === publicacion.id ? (
                 <>
@@ -210,16 +210,24 @@ const MisPublicaciones = () => {
                     Estado: {publicacion.estado_articulo === "nuevo" ? "Nuevo" : "Usado"}
                   </p>
                   <div className="flex justify-end gap-4">
-                    <button
-                      onClick={() => handleModificar(publicacion)}
-                      className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
-                    >
-                      Modificar
-                    </button>
+                                        {publicacion.estado_publicacion !== "vendido" && (
+                      <button
+                        onClick={() => handleModificar(publicacion)}
+                        className={`bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 ${
+                          publicacion.estado_publicacion === "vendido" ? "cursor-not-allowed opacity-50" : ""
+                        }`}
+                        disabled={publicacion.estado_publicacion === "vendido"}
+                      >
+                        Modificar
+                      </button>
+                    )}
                     {publicacion.estado_publicacion !== "finalizado" && (
                       <button
                         onClick={() => handleFinalizar(publicacion.id)}
-                        className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700"
+                        className={`bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 ${
+                          publicacion.estado_publicacion === "vendido" ? "cursor-not-allowed opacity-50" : ""
+                        }`}
+                        disabled={publicacion.estado_publicacion === "vendido"}
                       >
                         Finalizar
                       </button>
@@ -227,7 +235,10 @@ const MisPublicaciones = () => {
                     {publicacion.estado_publicacion !== "disponible" && (
                       <button
                         onClick={() => handleRepublicar(publicacion.id)}
-                        className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700"
+                        className={`bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 ${
+                          publicacion.estado_publicacion === "vendido" ? "cursor-not-allowed opacity-50" : ""
+                        }`}
+                        disabled={publicacion.estado_publicacion === "vendido"}
                       >
                         Republicar
                       </button>
