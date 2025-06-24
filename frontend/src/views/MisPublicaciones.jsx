@@ -129,10 +129,13 @@ const MisPublicaciones = () => {
           {publicaciones.map((publicacion) => (
             <div
               key={publicacion.id}
-              className={`bg-white border border-gray-200 shadow-md rounded-xl p-6 flex flex-col justify-between ${
+              className={`bg-white border border-gray-200 shadow-md rounded-xl p-6 flex flex-col justify-between relative ${
                 publicacion.estado_publicacion === "finalizado" ? "opacity-50" : ""
               } ${publicacion.estado_publicacion === "vendido" ? "opacity-50" : ""}`}
             >
+              <div className="absolute top-2 left-2 bg-gray-200 text-gray-700 rounded-md px-2 py-1 text-xs font-semibold">
+                {publicacion.estado_publicacion}
+              </div>
               {publicacionEditando === publicacion.id ? (
                 <>
                   <input
@@ -210,35 +213,26 @@ const MisPublicaciones = () => {
                     Estado: {publicacion.estado_articulo === "nuevo" ? "Nuevo" : "Usado"}
                   </p>
                   <div className="flex justify-end gap-4">
-                                        {publicacion.estado_publicacion !== "vendido" && (
+                                                            {publicacion.estado_publicacion !== "vendido" && (
                       <button
                         onClick={() => handleModificar(publicacion)}
-                        className={`bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 ${
-                          publicacion.estado_publicacion === "vendido" ? "cursor-not-allowed opacity-50" : ""
-                        }`}
-                        disabled={publicacion.estado_publicacion === "vendido"}
+                        className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
                       >
                         Modificar
                       </button>
                     )}
-                    {publicacion.estado_publicacion !== "finalizado" && (
+                    {publicacion.estado_publicacion !== "finalizado" && publicacion.estado_publicacion !== "vendido" && (
                       <button
                         onClick={() => handleFinalizar(publicacion.id)}
-                        className={`bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 ${
-                          publicacion.estado_publicacion === "vendido" ? "cursor-not-allowed opacity-50" : ""
-                        }`}
-                        disabled={publicacion.estado_publicacion === "vendido"}
+                        className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700"
                       >
                         Finalizar
                       </button>
                     )}
-                    {publicacion.estado_publicacion !== "disponible" && (
+                    {publicacion.estado_publicacion !== "disponible" && publicacion.estado_publicacion !== "vendido" && (
                       <button
                         onClick={() => handleRepublicar(publicacion.id)}
-                        className={`bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 ${
-                          publicacion.estado_publicacion === "vendido" ? "cursor-not-allowed opacity-50" : ""
-                        }`}
-                        disabled={publicacion.estado_publicacion === "vendido"}
+                        className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700"
                       >
                         Republicar
                       </button>
